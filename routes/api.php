@@ -17,7 +17,11 @@ Route::post('logindriver', 'App\Http\Controllers\DriverApiController@Driverlogin
 Route::post('registerdriver', 'App\Http\Controllers\DriverApiController@Registersdriver');
 Route::post('updateonline', 'App\Http\Controllers\DriverApiController@updateONLINEstatus');
 Route::post('updateoffline', 'App\Http\Controllers\DriverApiController@updateOFFLINEstatus');
-Route::get('fetchcostomersrequest', 'App\Http\Controllers\DriverApiController@getcustomersrequest');
+Route::get('fetchcostomersrequest/{driverid}', 'App\Http\Controllers\DriverApiController@getcustomersrequest');
+Route::post('acceptride', 'App\Http\Controllers\DriverApiController@updatedriveracceptride');
+Route::get('fetchdriversride/{id}', 'App\Http\Controllers\DriverApiController@getdriversrides');
+Route::post('rejectride', 'App\Http\Controllers\DriverApiController@updatedriverejectride');
+
 
 //counties and subcounties 
 Route::get('fetchcounties', 'App\Http\Controllers\DriverApiController@fetch_counties');

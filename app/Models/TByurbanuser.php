@@ -28,6 +28,17 @@ class TByurbanuser extends Model
         return self::all();
     }
 
+    public function counties()
+    {
+       
+        return $this->belongsTo(TBCounties::class,'county','id');
+    }
+
+    public function subcounties()
+    {
+       
+        return $this->belongsTo(TBConstituencies::class,'subcounty','id');
+    }
 
   
 }

@@ -31,14 +31,14 @@
                  <table>
         <thead>
             <tr>
-                <th>National ID</th>
+  
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Phone Number</th>
                 <th>County</th>
                 <th>Sub-County</th>
                 <th>Email</th>
-                <th>Actions</th>
+         
                 
                 
             </tr>
@@ -46,7 +46,7 @@
         <tbody>
             @foreach($customers as $customer)
                 <tr>
-                    <td>{{ $customer->nationaid }}</td>
+                   
                     <td>{{ $customer->firstname }}</td>
                     <td>{{ $customer->lastname }}</td>
                     <td>{{ $customer->phonenumber }}</td>

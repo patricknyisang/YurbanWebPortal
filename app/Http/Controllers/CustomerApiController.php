@@ -22,7 +22,7 @@ class CustomerApiController extends Controller
     {   
         // $customers = TBRide:: where('Customerid', $id)->get();
     
-        $customers = TBRide::getWhere(["Customerid" => $id]);
+        $customers = TBRide::where(["Customerid" => $id])->orderBy("date", "desc")->get();
     
          $customerlist = [];
     
@@ -30,9 +30,9 @@ class CustomerApiController extends Controller
             $customerlist[] = [
                 "id" => $customer->id,
                 "customerid" => $customer->{'Customerid'},
-                "customerphone" => $customer->{'CustomerPhone'},
-                "customerfname" => $customer->{'CustomerFirstname'},
-                "customerlname" => $customer->{'CustomerLastname'},
+                "customerphone" => $customer->{'DriverPhone'},
+                "customerfname" => $customer->{'DriverFirstname'},
+                "customerlname" => $customer->{'DriverLastname'},
                 "from" => $customer->{'PickLocation'},
                 "to" => $customer->{'DropLocation'},
                 "numberofpassagers" => $customer->{'Passagers'},
@@ -43,8 +43,9 @@ class CustomerApiController extends Controller
               // return response()->json([
             //     'data' => $customer
             // ], 200);
-            return response()->json($customerlist, 200);
+        
         }
+        return response()->json($customerlist, 200);
     
     }
 

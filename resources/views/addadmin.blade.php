@@ -54,6 +54,7 @@
                     <td>{{ $admin->subcounty }}</td>
                     <td>{{ $admin->email }}</td>
                     
+
                     <td>
                     <!-- Edit button (modal trigger) -->
                     <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $admin->id }}">

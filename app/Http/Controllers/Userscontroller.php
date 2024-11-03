@@ -61,7 +61,8 @@ class Userscontroller extends Controller
         }
     public function getdrivers()
     {   
-        $drivers=TByurbanuser::where('Role', 2)->get();
+        $drivers=@TByurbanuser::with(['counties','subcounties'])->where(["Role" => 2])->get();
+  
         $counties = TBCounties::all();
         return view('adddriver',compact('drivers','counties'));
 
@@ -69,14 +70,15 @@ class Userscontroller extends Controller
 
 public function getcustomers()
 {   
-    $customers = TByurbanuser::where('Role', 3)->get();
+    $customers = @TByurbanuser::with(['counties','subcounties'])->where('Role', 3)->get();
     $counties = TBCounties::all();
   
     return view('customers',compact('customers','counties'));
 }
 public function getadmins()
 {   
-    $admins = TByurbanuser::where('Role', 1)->get();
+    $admins = @TByurbanuser::with(['counties','subcounties'])->where(["Role" => 1])->get();
+
     $counties = TBCounties::all();
   
     return view('addadmin',compact('admins','counties'));

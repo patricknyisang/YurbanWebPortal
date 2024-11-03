@@ -17,14 +17,45 @@ use Carbon\Carbon;
 
 class DriverApiController extends Controller
 { 
-    public function getcustomersrequest()
+    
+
+    public function updatedriverejectride(Request $request){
+        $recordID = $request->input('recordid');
+     
+        $status='Rejected';
+        TBRide::where(['id' => $recordID])->update([
+        "status" => $status,
+    ]);
+
+}
+    public function updatedriveracceptride(Request $request){
+        $recordID = $request->input('recordid');
+        $driverID = $request->input('driverid');
+        $driverFirstname = $request->input('driverfirstname');
+        $driverLastname = $request->input('driverlastname');
+        $driverphone = $request->input('driverphone');
+        $status='accepted';
+        TBRide::where(['id' => $recordID])->update([
+        "DriverId" => $driverID,
+        "DriverFirstname" => $driverFirstname,
+        "DriverLastname" => $driverLastname,
+        "DriverPhone" => $driverphone,
+        "status" => $status,
+        
+       
+    ]);
+
+}
+
+    public function getcustomersrequest($driverid)
     {   
         // $customers = TBRide:: where('Customerid', $id)->get();
         $status = 'Pending';
         $customers = TBRide::getWhere(["status" =>  $status]);
-    
+        $druverstatus = TByurbanuser::getWhere(["id" =>  $driverid],true)->{"driverstatus"};
+
          $customerlist = [];
-    
+    if ( $druverstatus=='online'){
         foreach($customers as $customer) {
             $customerlist[] = [
                 "id" => $customer->id,
@@ -43,34 +74,43 @@ class DriverApiController extends Controller
             //     'data' => $customer
             // ], 200);
             return response()->json($customerlist, 200);
+
+        }
+        }else{
+            return response(['error'=>true,'message'=>'You are offline']);
         }
     
     }
 
-    public function getcustomersrides($id)
+    
+    public function getdriversrides($id)
     {   
-        $customers = TByurbanuser:: where('Role', 3)->get();
+        // $customers = TBRide:: where('Customerid', $id)->get();
     
-        
-        $customer = [];
+        $drivers = TBRide::where(["DriverId" => $id])->orderBy("date", "desc")->get();
     
-        foreach($customers as $customer) {
-            $customer[] = [
-                "IDNo" => $customer->{'nationaid'},
-                "FirstName" => $customer->{'firstname'},
-                "LastName" => $customer->{'lastname'},
-                "PhoneNo" => $customer->{'phonenumber'},
-                "county" => $customer->{'county'},
-                "subcounty" => $customer->{'subcounty'},
-                "email" => $customer->{'email'},
+         $driverlist = [];
+    
+        foreach($drivers as $driver) {
+            $driverlist[] = [
+                "id" => $driver->id,
+                "customerid" => $driver->{'Customerid'},
+                "customerphone" => $driver->{'CustomerPhone'},
+                "customerfname" => $driver->{'CustomerFirstname'},
+                "customerlname" => $driver->{'CustomerLastname'},
+                "from" => $driver->{'PickLocation'},
+                "to" => $driver->{'DropLocation'},
+                "numberofpassagers" => $driver->{'Passagers'},
+                "action" => $driver->{'status'},
                 
       
             ];
               // return response()->json([
             //     'data' => $customer
             // ], 200);
-            return response()->json($customer, 200);
+        
         }
+        return response()->json($driverlist, 200);
     
     }
     public function updateOFFLINEstatus(Request $request){
